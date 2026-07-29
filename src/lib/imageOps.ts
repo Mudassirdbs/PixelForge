@@ -11,8 +11,10 @@ function assertCanvasSafe(width: number, height: number, action: string) {
 }
 
 function get2d(canvas: HTMLCanvasElement) {
-  const ctx = canvas.getContext("2d");
+  const ctx = (canvas.getContext("2d", { colorSpace: "srgb" }) || canvas.getContext("2d")) as CanvasRenderingContext2D | null;
   if (!ctx) throw new Error("Canvas is not available in this browser.");
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
   return ctx;
 }
 
@@ -177,7 +179,7 @@ export async function resizeImage(
     ctx.drawImage(img, 0, 0, tw, th);
   }
 
-  const blob = await toBlob(canvas, mime, opts.format === "png" ? undefined : 0.92);
+  const blob = await toBlob(canvas, mime, opts.format === "png" ? undefined : 0.98);
   return { blob, filename: `${baseName(file.name)}-${tw}x${th}.${opts.format}`, mime };
 }
 

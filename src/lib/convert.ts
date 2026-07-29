@@ -68,8 +68,10 @@ function assertCanvasSafe(width: number, height: number, action: string) {
 }
 
 function get2d(canvas: HTMLCanvasElement) {
-  const ctx = canvas.getContext("2d");
+  const ctx = (canvas.getContext("2d", { colorSpace: "srgb" }) || canvas.getContext("2d")) as CanvasRenderingContext2D | null;
   if (!ctx) throw new Error("Canvas is not available in this browser.");
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
   return ctx;
 }
 
@@ -260,6 +262,16 @@ export interface ConvertResult {
 
 export async function convertFile(file: File, target: OutputFormat): Promise<ConvertResult> {
   const name = baseName(file.name);
+  const ext = extOf(file.name);
+
+  // If input format matches target format, pass through original blob to preserve 100% byte-for-byte quality & colors
+  if (
+    (ext === target) ||
+    (ext === "jpeg" && target === "jpg") ||
+    (ext === "jpg" && target === "jpg")
+  ) {
+    return { blob: file, filename: `${name}.${target}`, mime: file.type || MIME[target] || "image/png" };
+  }
 
   if (target === "base64") {
     const ext = extOf(file.name);
@@ -312,7 +324,8 @@ export async function convertFile(file: File, target: OutputFormat): Promise<Con
   const mime = MIME[target];
   const bg = target === "jpg" ? "#ffffff" : undefined;
   const canvas = drawToCanvas(img, bg);
-  const quality = target === "jpg" || target === "webp" || target === "avif" ? 0.92 : undefined;
+  // Use near-lossless 0.98 quality for lossy formats to preserve maximum visual fidelity and true colors
+  const quality = target === "jpg" || target === "webp" || target === "avif" ? 0.98 : undefined;
   const blob = await canvasToBlob(canvas, mime, quality);
   return { blob, filename: `${name}.${target}`, mime };
 }
