@@ -451,7 +451,7 @@ export default function ImageConverter() {
           </span>
         </a>
         <a
-          href="https://github.com"
+          href="https://github.com/Mudassirdbs/PixelForge"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="View on GitHub"
