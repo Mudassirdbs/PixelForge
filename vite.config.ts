@@ -11,7 +11,7 @@ export default defineConfig({
       server: { entry: "server" },
     }),
     nitro({
-      defaultPreset: "cloudflare-module",
+      defaultPreset: "cloudflare-pages",
     }),
     viteReact(),
     tailwindcss(),
