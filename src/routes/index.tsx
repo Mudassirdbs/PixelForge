@@ -41,7 +41,7 @@ export const Route = createFileRoute("/")({
           applicationCategory: "MultimediaApplication",
           operatingSystem: "Any",
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-          creator: { "@type": "Person", name: "Mudassir Asghar" },
+          creator: { "@type": "Person", name: "Mudassir Asghar", url: "https://mudassirasghar.dev" },
           featureList: [
             "Convert images between PNG, JPG, WEBP, AVIF, SVG, HEIC, TIFF, PDF and Base64",
             "Compress images without losing quality",

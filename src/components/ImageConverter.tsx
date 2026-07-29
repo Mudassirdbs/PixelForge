@@ -970,7 +970,15 @@ export default function ImageConverter() {
             <span className="opacity-60">© {new Date().getFullYear()}</span>
           </div>
           <p className="text-sm text-[color:var(--muted-foreground)]">
-            Created by <span className="font-semibold text-[color:var(--foreground)]">Mudassir Asghar</span>
+            Created by{" "}
+            <a
+              href="https://mudassirasghar.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-[color:var(--foreground)] transition hover:text-[color:var(--primary)] hover:underline"
+            >
+              Mudassir Asghar
+            </a>
           </p>
         </div>
       </footer>
